@@ -6,6 +6,8 @@ const int motorA_in1 = 5;
 const int motorA_in2 = 6;
 const int motorB_in3 = 10;
 const int motorB_in4 = 11;
+const int motorA_en = 9; 
+const int motorB_en = 3;
 
 // Definición de pines de sensores
 const int sensorIzquierdo = A0;
@@ -17,6 +19,9 @@ int detectaIzquierdo = 0;
 int detectaCentral = 0;
 int detectaDerecho = 0;
 
+// Variable global de velocidad
+int velocidad = 128;
+
 // ===== FUNCIONES =====
 
 // Configuración de los motores
@@ -25,6 +30,8 @@ void configurarMotores() {
   pinMode(motorA_in2, OUTPUT);
   pinMode(motorB_in3, OUTPUT);
   pinMode(motorB_in4, OUTPUT);
+  pinMode(motorA_en, OUTPUT);
+  pinMode(motorB_en, OUTPUT);
 }
 
 // Configuración de los sensores
@@ -40,6 +47,8 @@ void moverAdelante() {
   digitalWrite(motorA_in2, LOW);
   digitalWrite(motorB_in3, HIGH);
   digitalWrite(motorB_in4, LOW);
+  analogWrite(motorA_en, velocidad);
+  analogWrite(motorB_en, velocidad);
 }
 
 void girarIzquierda() {
@@ -47,6 +56,8 @@ void girarIzquierda() {
   digitalWrite(motorA_in2, HIGH);
   digitalWrite(motorB_in3, HIGH);
   digitalWrite(motorB_in4, LOW);
+  analogWrite(motorA_en, velocidad);
+  analogWrite(motorB_en, velocidad);
 }
 
 void girarDerecha() {
@@ -54,6 +65,8 @@ void girarDerecha() {
   digitalWrite(motorA_in2, LOW);
   digitalWrite(motorB_in3, LOW);
   digitalWrite(motorB_in4, HIGH);
+  analogWrite(motorA_en, velocidad);
+  analogWrite(motorB_en, velocidad);
 }
 
 void detenerRobot() {
@@ -61,6 +74,8 @@ void detenerRobot() {
   digitalWrite(motorA_in2, LOW);
   digitalWrite(motorB_in3, LOW);
   digitalWrite(motorB_in4, LOW);
+  analogWrite(motorA_en, 0);
+  analogWrite(motorB_en, 0);
 }
 
 // Función para leer los sensores
