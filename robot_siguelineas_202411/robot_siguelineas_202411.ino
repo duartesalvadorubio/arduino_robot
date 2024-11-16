@@ -2,11 +2,11 @@
 
 // ===== VARIABLES =====
 // Definición de pines de motores
-const int motorA_in1 = 5;
-const int motorA_in2 = 6;
-const int motorB_in3 = 10;
-const int motorB_in4 = 11;
-const int motorA_en = 9; 
+const int motorA_in1 = 10;
+const int motorA_in2 = 7;
+const int motorB_in3 = 6;
+const int motorB_in4 = 5;
+const int motorA_en = 11; 
 const int motorB_en = 3;
 
 // Definición de pines de sensores
@@ -20,7 +20,7 @@ int detectaCentral = 0;
 int detectaDerecho = 0;
 
 // Variable global de velocidad
-int velocidad = 128;
+int velocidad = 60;
 
 // ===== FUNCIONES =====
 
@@ -83,13 +83,21 @@ void leerSensores() {
   detectaIzquierdo = digitalRead(sensorIzquierdo);
   detectaCentral = digitalRead(sensorCentral);
   detectaDerecho = digitalRead(sensorDerecho);
+  Serial.print("S. Cnt: ");
+  Serial.println(detectaCentral);
+  Serial.print("S. Der: ");
+  Serial.println(detectaDerecho);
+  Serial.print("S. Izq: ");
+  Serial.println(detectaIzquierdo);
 }
 
 // Lógica de control del robot según los sensores
 void controlRobot() {
   leerSensores();
-  
-  if (detectaCentral == HIGH && detectaIzquierdo == LOW && detectaDerecho == LOW) {
+
+  if (detectaIzquierdo == HIGH && detectaDerecho == HIGH){
+    detenerRobot();
+  } else if (detectaCentral == HIGH) {
     moverAdelante();
   } else if (detectaIzquierdo == HIGH && detectaCentral == LOW) {
     girarIzquierda();
@@ -104,6 +112,7 @@ void controlRobot() {
 // ===== PROGRAMA PRINCIPAL =====
 
 void setup() {
+  Serial.begin(9600);
   configurarMotores();
   configurarSensores();
 }
